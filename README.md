@@ -27,8 +27,8 @@ This app uses dictionaries to store each recipe. Dictionaries are the best appro
 
 ```python
 recipe_template = {
-  'name': 'name of the recipe as a string'
-  'cooking_time': 0 # cooking time in minutes as an integer
+  'name': 'name of the recipe as a string',
+  'cooking_time': 0, # cooking time in minutes as an integer
   'ingredients': ['list', 'of', 'ingredients']
 }
 ```
