@@ -35,10 +35,11 @@ recipe_template = {
 
 ## Running the app
 
-Using Python 3.8 or higher, use the command line to do the following:
+After installing Python 3.8 or higher, use the command line to do the following:
 
 ```bash
 git clone https://github.com/sarahmjenkins/python-recipe-app.git
 pip3.8 install -r requirements.txt
-python3.8 Exercise\ 1.1/add.py
+mkvirtualenv <name new virtual environment>
+ipython
 ```
