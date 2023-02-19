@@ -39,6 +39,7 @@ After installing Python 3.8 or higher, use the command line to do the following:
 
 ```bash
 git clone https://github.com/sarahmjenkins/python-recipe-app.git
+cd python-recipe-app
 pip3.8 install -r requirements.txt
 mkvirtualenv <name new virtual environment>
 ipython
