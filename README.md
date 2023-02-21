@@ -19,17 +19,18 @@ Right now this app asks users to input two numbers and returns the sum.
 
 ### Outer Structure
 
-Each recipe is contained in the list `all_recipes`. Storing recipes as a list enables modification of each element, indexing, sorting, and use of any data type.
+Each recipe is contained in the list `recipes_list`. Storing recipes as a list enables modification of each element, indexing, sorting, and use of any data type. All ingredients are also stored in a list called `ingredients_list`.
 
 ### Recipe Structure
 
-This app uses dictionaries to store each recipe. Dictionaries are the best approach because they store key-value pairs, and they allow the keys and values to take any data type. Each recipe in this app follows the structure of `recipe_template`:
+This app uses dictionaries to store each recipe. Dictionaries are the best approach because they store key-value pairs, and they allow the keys and values to take any data type. Each recipe in this app is created through user input with the `take_recipe()` function and have the following format:
 
 ```python
-recipe_template = {
+recipe = {
   'name': 'name of the recipe as a string',
   'cooking_time': 0, # cooking time in minutes as an integer
-  'ingredients': ['list', 'of', 'ingredients']
+  'ingredients': ['list', 'of', 'ingredients'],
+  'difficulty': 'level of difficulty calculated by cooking time and number of ingredients`
 }
 ```
 
@@ -42,5 +43,5 @@ git clone https://github.com/sarahmjenkins/python-recipe-app.git
 cd python-recipe-app
 pip3.8 install -r requirements.txt
 mkvirtualenv <name new virtual environment>
-ipython
+python exercise_1.3/exercise_1.3.py
 ```
