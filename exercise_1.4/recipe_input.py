@@ -1,26 +1,26 @@
 import pickle
 
+def calc_difficulty(cooking_time, ingredients):
+  if cooking_time < 10 and len(ingredients) < 4:
+    difficulty = 'Easy'
+  elif cooking_time < 10 and len(ingredients) >= 4:
+    difficulty = 'Medium'
+  elif cooking_time >= 10 and len(ingredients) < 4:
+    difficulty = 'Intermediate'
+  elif cooking_time >= 10 and len(ingredients) >= 4:
+    difficulty = 'Hard'
+  return difficulty
+
 def take_recipe():
   recipe_name = input('Recipe name: ')
   cooking_time = int(input('Cooking time in minutes: '))
   ingredients = list(input('Ingredients: ').lower().split(', '))
-
-  def calc_difficulty():
-    if cooking_time < 10 and len(ingredients) < 4:
-      difficulty = "Easy"
-    elif cooking_time < 10 and len(ingredients) >= 4:
-      difficulty = "Medium"
-    elif cooking_time >= 10 and len(ingredients) < 4:
-      difficulty = "Intermediate"
-    elif cooking_time >= 10 and len(ingredients) >= 4:
-      difficulty = "Easy"
-    return difficulty
  
   recipe = {
     'Name': recipe_name,
     'Cooking time': cooking_time,
     'Ingredients': ingredients,
-    'Difficulty': calc_difficulty()
+    'Difficulty': calc_difficulty(cooking_time, ingredients)
   }
 
   return recipe
@@ -65,12 +65,3 @@ data = {
 recipe_file = open(filename, 'wb')
 pickle.dump(data, recipe_file)
 recipe_file.close()
-
-
-
-
-
-
-
-    
-    
