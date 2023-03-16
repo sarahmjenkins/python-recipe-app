@@ -32,4 +32,5 @@ except:
   print('There has been an error accessing your recipes.')
 else:
   search_ingredient(data)
+finally:
   recipe_file.close()

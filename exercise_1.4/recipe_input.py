@@ -42,11 +42,10 @@ except:
     'recipes_list': [],
     'all_ingredients': []
   }
-else:
-  recipe_file.close()
 finally:
   recipes_list = data['recipes_list']
   all_ingredients = data['all_ingredients']
+  recipe_file.close()
 
 recipes_list_length = int(input('How many recipes do you want to add? '))
 
