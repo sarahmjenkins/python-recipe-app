@@ -17,9 +17,29 @@ class Height(object):
         output_inches = height_difference_inches % 12
 
         return Height(output_feet, output_inches)
+    
+    def __gt__(self, other):
+        height_a_inches = self.feet*12 + self.inches
+        height_b_inches = other.feet*12 + other.inches
+        return height_a_inches > height_b_inches
+    
+    def __ge__(self, other):
+        height_a_inches = self.feet*12 + self.inches
+        height_b_inches = other.feet*12 + other.inches
+        return height_a_inches >= height_b_inches
+    
+    def __ne__(self, other):
+        height_a_inches = self.feet*12 + self.inches
+        height_b_inches = other.feet*12 + other.inches
+        return height_a_inches != height_b_inches
 
-person_a = Height(5, 10)
-person_b = Height(3, 9)
-height_difference = person_a - person_b
+# Code Practice 2:
+# person_a = Height(5, 10)
+# person_b = Height(3, 9)
+# height_difference = person_a - person_b
+# print('Height difference:', height_difference)
 
-print('Height difference:', height_difference)
+# Code Practice 3:
+print(Height(4, 6) > Height(4, 5))
+print(Height(4, 5) >= Height(4, 5))
+print(Height(5, 9) != Height(5, 10))
