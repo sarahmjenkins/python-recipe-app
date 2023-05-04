@@ -98,20 +98,9 @@ def search_recipe(conn, cursor):
 
 # Option Three: update recipe
 def update_recipe(conn, cursor):
-  cursor.execute('SELECT * FROM Recipes')
-  results = cursor.fetchall()
-
   print('=============================')
   print('Update a Recipe')
-  print('-----------------------------')
-  print('Your Recipes ')
-  print('-----------------------------')
-  for row in results:
-    print('ID:', row[0])
-    print('Name: ' + row[1])
-    print('Ingredients: ' + row[2])
-    print('Cooking time:', row[3], 'minutes')
-    print('Difficulty: ' + row[4] + '\n')
+  view_recipes(conn, cursor)
   
   selected_recipe = input('Select a recipe to update by entering its ID: ')
   column_to_update = input('Would you like to update the recipe\'s name, ingredients, or cooking time? ')
@@ -152,7 +141,27 @@ def update_recipe(conn, cursor):
 
 # Option Four: delete a recipe
 def delete_recipe(conn, cursor):
-  return print('done')
+  print('=============================')
+  print('Delete a Recipe')
+  view_recipes(conn, cursor)
+  selected_recipe = input('Select a recipe to delete by entering its ID: ')
+  cursor.execute('DELETE FROM Recipes WHERE id = %s', (selected_recipe, ))
+  conn.commit()
+  print('The selected recipe has been deleted.')
+
+# View all recipes function to be used in update and delete recipe functions
+def view_recipes(conn, cursor):
+  cursor.execute('SELECT * FROM Recipes')
+  results = cursor.fetchall()
+  print('-----------------------------')
+  print('Your Recipes ')
+  print('-----------------------------')
+  for row in results:
+    print('ID:', row[0])
+    print('Name: ' + row[1])
+    print('Ingredients: ' + row[2])
+    print('Cooking time:', row[3], 'minutes')
+    print('Difficulty: ' + row[4] + '\n')
 
 # Running the script
 import mysql.connector
