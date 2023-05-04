@@ -119,7 +119,7 @@ def update_recipe(conn, cursor):
     cursor.execute('SELECT cooking_time FROM Recipes WHERE id = %s', (selected_recipe, ))
     result = cursor.fetchall()
     cooking_time = result[0][0]
-    new_ingredients_list = list(new_ingredients.lower.split(','))
+    new_ingredients_list = list(new_ingredients.lower().split(', '))
     cursor.execute('UPDATE Recipes SET difficulty = %s WHERE id = %s', (calc_difficulty(cooking_time, new_ingredients_list), selected_recipe))
     print('Your recipe\'s ingredients and difficulty have been updated.')
   
@@ -132,7 +132,8 @@ def update_recipe(conn, cursor):
     cursor.execute('SELECT ingredients FROM Recipes WHERE id = %s', (selected_recipe, ))
     result = cursor.fetchall()
     ingredients = result[0][0]
-    ingredients_list = list(ingredients.split(','))
+    print(ingredients)
+    ingredients_list = list(ingredients.split(', '))
     cursor.execute('UPDATE Recipes SET difficulty = %s WHERE id = %s', (calc_difficulty(new_cooking_time, ingredients_list), selected_recipe))
     print('Your recipe\'s cooking time and difficulty have been updated.')
 
