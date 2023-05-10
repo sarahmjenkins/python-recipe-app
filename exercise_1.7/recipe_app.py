@@ -121,3 +121,29 @@ def create_recipe():
 # delete a recipe
 
 # main menu
+def main_menu():
+  choice = ''
+
+  while(choice != 'quit'):
+    print('='*30)
+    print('Main Menu')
+    print('-'*30)
+    print('What would you like to do? Pick an option:')
+    print('\t1. Create a new recipe.')
+    print('\t2. Search for recipes that match an ingredient.')
+    print('\t3. Update an existing recipe.')
+    print('\t4. Delete a recipe.')
+    # print('\t5. View all recipes.')
+    print('\nType \'quit\' to exit the program.')
+    choice = input('\nEnter your choice here: ')
+
+    if choice == '1':
+      create_recipe()
+    # elif choice == '2':
+    #   search_recipe()
+    # elif choice == '3':
+    #   update_recipe()
+    # elif choice == '4':
+    #   delete_recipe()
+    # elif choice == '5':
+    #   print_recipes(conn, cursor)
