@@ -116,14 +116,61 @@ def view_all_recipes():
   print('-'*30)
   recipes_list = session.query(Recipe).all()
   if len(recipes_list) == 0:
-    print('\n You don\t have any recipes yet! Try creating a new recipe')
+    print('\n You don\t have any recipes yet! Try creating a new recipe.')
     return None
   else:
     for recipe in recipes_list:
       print(recipe)
 
-
 # search recipes by ingredient
+def search_by_ingredients():
+  print('='*30)
+  print('All Ingredients')
+  print('-'*30)
+  
+  # check whether there are recipes to search
+  if session.query(Recipe).count() == 0:
+    print('\n You don\t have any recipes yet! Try creating a new recipe.')
+    return None
+  else:
+   
+    # add all ingredients to a list
+    results = session.query(Recipe.ingredients).all()
+    all_ingredients = []
+    for result in results:
+      ingredient_list = list(result[0].lower().split(', '))
+      for ingredient in ingredient_list:
+        if ingredient not in all_ingredients:
+          all_ingredients.append(ingredient)
+    
+    # create a numbered list of ingredients
+    printed_ingredients = list(enumerate(all_ingredients, 1))
+    for ingredient in printed_ingredients:
+      print(str(ingredient[0]) + '. ' + ingredient[1])
+    
+    # allow users to select ingredients to search
+    try: 
+      search_input = input('\nSelect the number of one or more ingredients you\'d like to search in recipes (separate numbers by a space): ')
+      search_input_list = list(search_input.split(' '))
+      search_ingredients = []
+      for item in search_input_list:
+        search_ingredients.append(all_ingredients[int(item)-1])
+      print('\nThe following recipes include your selected ingredients:')
+    # if the user made an invalid selection   
+    except:
+      print()
+      print('*'*30)
+      print('Ingredient number is not valid.')
+      print('*'*30)
+      print()
+    else:
+      conditions = []
+      for ingredient in search_ingredients:
+        like_term = '%' + ingredient + '%'
+        conditions.append(Recipe.ingredients.like(like_term))
+      searched_recipes = session.query(Recipe).filter(*conditions).all()
+      for recipe in searched_recipes:
+        print(recipe)
 
 # edit a recipe
 
@@ -148,8 +195,8 @@ def main_menu():
     choice = input('\nEnter your choice here: ')
     if choice == '1':
       create_recipe()
-    # elif choice == '2':
-    #   search_recipe()
+    elif choice == '2':
+      search_by_ingredients()
     # elif choice == '3':
     #   update_recipe()
     # elif choice == '4':
