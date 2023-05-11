@@ -1,4 +1,4 @@
-# set up sqlalchemy, create engine and session
+# set up sqlalchemy, create engine and session, run program
 from sqlalchemy import create_engine 
 engine = create_engine("mysql://cf-python:password@localhost/task_database")
 
@@ -23,11 +23,7 @@ class Recipe(Base):
   def __repr__(self):
     return "<Recipe ID: " + str(self.id) + "-" + self.name + "-" + self.difficulty + ">"
   def __str__(self):
-    print('-'*30)
-    print('Recipe for ', self.name)
-    print('\tIngredients: ', self.ingredients)
-    print('\tCooking time: ', self.cooking_time, ' minutes')
-    print('\tDifficulty: ', self.difficulty)
+    return "\n" + self.name + "\nRecipe ID: " + str(self.id) + "\nIngredients: " + self.ingredients + "\nCooking time: " + str(self.cooking_time) + " minutes\nDifficulty: " + self.difficulty
 
 def calculate_difficulty(cooking_time, ingredients):
   if cooking_time < 10 and len(ingredients) < 4:
@@ -50,6 +46,7 @@ Base.metadata.create_all(engine)
 
 # create new recipe
 def create_recipe():
+  print()
   print('='*30)
   print('Create a New Recipe')
   print('-'*30)
@@ -57,52 +54,52 @@ def create_recipe():
   # setting the entered name as the recipe's name if under 50 characters
   name_is_valid = False
   while name_is_valid == False:
-    name_input = input('\tEnter the name of your recipe: ')
+    name_input = input('Enter the name of your recipe: ')
     if len(name_input) <=50:
       name = name_input
       name_is_valid = True
     else:
+      print()
       print('*'*30)
       print('The name of your recipe must be less than 50 characters. Please try again.')
       print('*'*30)
+      print()
 
-  # setting the entered ingredients as the recipe's ingredients if under 255 characters
-  ingredients_are_valid = False
-  num_ingredients_is_valid = False
+  # setting the entered ingredients as the recipe's ingredients
   ingredients = []
-  ingredients_string = ', '.join(ingredients)
-  while ingredients_are_valid == False:
-    if len(ingredients_string) <=255:
-      while num_ingredients_is_valid == False:
-        number_of_ingredients = input('\tEnter the number of ingredients in your recipe: ')
-        if number_of_ingredients.isnumeric():
-          for ingredient in number_of_ingredients:
-            ingredient = input('\t\tEnter an ingredient: ')
-            ingredients.append(ingredient)
-          num_ingredients_is_valid = True
-        else:
-          print('*'*30)
-          print('The number of ingredients must be a number. Please try again')
-          print('*'*30)
-      ingredients_are_valid = True
+  num_ingredients_is_valid = False
+  while num_ingredients_is_valid == False:
+    number_of_ingredients = input('Enter the number of ingredients in your recipe: ')
+    if number_of_ingredients.isnumeric():
+      ingredient_number = 1
+      while ingredient_number <= int(number_of_ingredients):
+        ingredient = input('\tEnter an ingredient: ')
+        ingredients.append(ingredient)
+        ingredient_number +=1
+      num_ingredients_is_valid = True
     else:
+      print()
       print('*'*30)
-      print('Your recipe\'s list of ingredients must be less than 255 characters. Please try again.')
+      print('The number of ingredients must be a number. Please try again')
       print('*'*30)
+      print()
 
   # setting the entered cooking time as the recipe's cooking time if a number
   cooking_time_is_valid = False
   while cooking_time_is_valid == False:
-    cooking_time_input = input('\tEnter how long your recipe will take to make in minutes: ')
+    cooking_time_input = input('Enter how long your recipe will take to make in minutes: ')
     if cooking_time_input.isnumeric():
       cooking_time = int(cooking_time_input)
       cooking_time_is_valid = True
     else:
+      print()
       print('*'*30)
       print('Your cooking time must be a number. Please try again.')
       print('*'*30)
+      print()
 
   # object based on Recipe model to add new recipe to database
+  ingredients_string = ', '.join(ingredients)
   recipe_entry = Recipe(
     name = name,
     ingredients = ingredients_string,
@@ -113,6 +110,18 @@ def create_recipe():
   session.commit()
 
 # view all recipes
+def view_all_recipes():
+  print('='*30)
+  print('All Recipes')
+  print('-'*30)
+  recipes_list = session.query(Recipe).all()
+  if len(recipes_list) == 0:
+    print('\n You don\t have any recipes yet! Try creating a new recipe')
+    return None
+  else:
+    for recipe in recipes_list:
+      print(recipe)
+
 
 # search recipes by ingredient
 
@@ -128,15 +137,15 @@ def main_menu():
     print('='*30)
     print('Main Menu')
     print('-'*30)
-    print('What would you like to do? Pick an option:')
+    print('What would you like to do? Pick an option:\n')
     print('\t1. Create a new recipe.')
     print('\t2. Search for recipes that match an ingredient.')
     print('\t3. Update an existing recipe.')
     print('\t4. Delete a recipe.')
-    # print('\t5. View all recipes.')
+    print('\t5. View all recipes.')
     print('\nType \'quit\' to exit the program.')
+    
     choice = input('\nEnter your choice here: ')
-
     if choice == '1':
       create_recipe()
     # elif choice == '2':
@@ -145,5 +154,8 @@ def main_menu():
     #   update_recipe()
     # elif choice == '4':
     #   delete_recipe()
-    # elif choice == '5':
-    #   print_recipes(conn, cursor)
+    elif choice == '5':
+      view_all_recipes()
+
+# run program
+main_menu()
